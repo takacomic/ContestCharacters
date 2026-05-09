@@ -1,0 +1,105 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="0Harmony">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\net6\0Harmony.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Il2CppInterop.Runtime">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Il2CppMAScripts">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\Il2CppAssemblies\Il2CppMAScripts.dll</HintPath>
+      </Reference>
+      <Reference Include="Il2Cppmscorlib">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Il2CppNewtonsoft.Json">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\Il2CppAssemblies\Il2CppNewtonsoft.Json.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Il2CppPauseSystem">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\Il2CppAssemblies\Il2CppPauseSystem.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Il2CppPhaserPort">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\Il2CppAssemblies\Il2CppPhaserPort.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Il2CppSystem">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\Il2CppAssemblies\Il2CppSystem.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Il2CppVampireSurvivors.Runtime">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\Il2CppAssemblies\Il2CppVampireSurvivors.Runtime.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Il2CppZenject">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\Il2CppAssemblies\Il2CppZenject.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="MelonLoader">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\net6\MelonLoader.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="Newtonsoft.Json">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\net6\Newtonsoft.Json.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>..\..\..\..\SteamLibrary\steamapps\common\VSModded\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="characters\secret\" />
+      <Folder Include="patches\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CoffinTech\CoffinTech.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="resources\chef_luigi_walk.png" />
+      <EmbeddedResource Include="resources\beta_walk.png" />
+      <EmbeddedResource Include="resources\zeta_walk.png" />
+      <EmbeddedResource Include="resources\chef_luigi_walk.png" />
+      <None Remove="resources\Enzo_Brigante_walk.png" />
+      <EmbeddedResource Include="resources\Enzo_Brigante_walk.png" />
+      <None Remove="resources\Gourdtellio_Crowlaguard_walk.png" />
+      <EmbeddedResource Include="resources\Gourdtellio_Crowlaguard_walk.png" />
+      <None Remove="resources\Mortis_Surmanski_walk.png" />
+      <EmbeddedResource Include="resources\Mortis_Surmanski_walk.png" />
+      <None Remove="resources\Piuma_Ferro_walk.png" />
+      <EmbeddedResource Include="resources\Piuma_Ferro_walk.png" />
+      <None Remove="resources\Roller_Brawlerweed_walk.png" />
+      <EmbeddedResource Include="resources\Roller_Brawlerweed_walk.png" />
+      <None Remove="resources\Sir_Bone_walk.png" />
+      <EmbeddedResource Include="resources\Sir_Bone_walk.png" />
+      <None Remove="resources\specimen_40_walk.png" />
+      <EmbeddedResource Include="resources\specimen_40_walk.png" />
+      <None Remove="resources\baron_husker_walk.png" />
+      <EmbeddedResource Include="resources\baron_husker_walk.png" />
+      <None Remove="resources\Rubricco_Puzzorelio_walk.png" />
+      <EmbeddedResource Include="resources\Rubricco_Puzzorelio_walk.png" />
+      <None Remove="resources\Usui_Yukimi_walk.png" />
+      <EmbeddedResource Include="resources\Usui_Yukimi_walk.png" />
+      <None Remove="resources\Ashnard_Brenen_walk.png" />
+      <EmbeddedResource Include="resources\Ashnard_Brenen_walk.png" />
+      <None Remove="resources\Guillotina_Ravera_walk.png" />
+      <EmbeddedResource Include="resources\Guillotina_Ravera_walk.png" />
+      <None Remove="resources\Slein_walk.png" />
+      <EmbeddedResource Include="resources\Slein_walk.png" />
+    </ItemGroup>
+
+</Project>
