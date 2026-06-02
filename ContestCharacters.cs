@@ -22,9 +22,7 @@ using UnityEngine.Rendering.Universal;
 
 [assembly: MelonInfo(typeof(ContestCharactersMod), ModInfo.Name, ModInfo.Version, ModInfo.Author, ModInfo.Download)]
 [assembly: MelonGame("poncle", "Vampire Survivors")]
-#if DEBUG
 [assembly: MelonOptionalDependencies("SurvivorModMenu")]
-#endif
 
 namespace ContestCharacters;
 
