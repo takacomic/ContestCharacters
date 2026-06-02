@@ -69,7 +69,8 @@ public sealed class GourdtellioStats : BaseCharacterData
         SurName = "Crowlaguard";
         TextureName = "Gourdtellio_Crowlaguard_walk";
         SpriteName = "Gourdtellio_Crowlaguard_walk_01.png";
-        Description = "A lowly scarecrow who is outstanding in his field";
+        PortraitName = "p_gourdtellio.png";
+        Description = "A lowly scarecrow who is outstanding in his field. When standing, gains +30% Aura and Curse over time, resets when moving.";
         StartingWeapon = WeaponType.SILF2;
         Curse += 0.1f;
         Area += 0.1f;

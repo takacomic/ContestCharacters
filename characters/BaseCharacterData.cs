@@ -3,6 +3,7 @@ using CoffinTech.Utils;
 using Newtonsoft.Json.Linq;
 using Il2CppVampireSurvivors.Data;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace ContestCharacters.characters;
 
@@ -15,23 +16,29 @@ public abstract class BaseCharacterData
     [JsonProperty("charName")]
     public virtual string CharName { get; set; } = "Default";
     [JsonProperty("surName")]
-    public virtual string SurName { get; set; } = "Name";
+    public virtual string? SurName { get; set; }
+    [JsonProperty("prefix")]
+    public virtual string Prefix { get; set; } = "";
     [JsonProperty("spriteName")]
     public virtual string SpriteName { get; set; } = "Null";
     [JsonProperty("textureName")]
     public virtual string TextureName { get; set; } = "Null";
+    [JsonProperty("portraitName")]
+    public virtual string? PortraitName { get; set; }
     [JsonProperty("walkingFrames")]
     public virtual int WalkingFrames { get; set; } = 4;
-    /*[JsonProperty("skins")]
-    public virtual JArray Skins { get; set; } = new();*/
+    [JsonProperty("walkFrameRate")]
+    public virtual int WalkFrameRate { get; set; } = 8;
+    [JsonProperty("skins")]
+    public virtual JArray? Skins { get; set; }
     [JsonProperty("currentSkin")]
     public virtual string CurrentSkin { get; set; } = "DEFAULT";
     [JsonProperty("description")]
     public virtual string Description { get; set; } = "Default Description";
     [JsonProperty("isBought")]
-    public virtual bool IsBought { get; set; } = true;
+    public virtual bool IsBought { get; set; } = false;
     [JsonProperty("price")]
-    public virtual int Price { get; set; } = 10;
+    public virtual int Price { get; set; } = 1000;
     
     [JsonProperty("maxHp")]
     public virtual int MaxHp { get; set; } = 100;
@@ -88,6 +95,21 @@ public abstract class BaseCharacterData
     [JsonProperty("recycle")]
     public virtual float Recycle { get; set; }
 
+    [JsonProperty("charSelTexture")] 
+    public virtual string? CharSelTexture { get; set; }
+    [JsonProperty("charSelFrame")]
+    public virtual string? CharSelFrame { get; set; }
+    
+    [JsonProperty("hidden")]
+    public virtual bool Hidden { get; set; } = true;
+    [JsonProperty("secret")]
+    public virtual bool Secret { get; set; } = false;
+    [JsonProperty("unlocked")]
+    public virtual bool Unlocked { get; set; } = false;
+
+    [JsonProperty("requiresRelic")]
+    public virtual string RequiresRelic { get; set; } = "100001";
+
     [Newtonsoft.Json.JsonIgnore]
     public JObject Level20 = new JObject(
         new JProperty("growth", 1),
@@ -117,5 +139,11 @@ public abstract class BaseCharacterData
     public virtual string JsonText()
     {
         return "";
+    }
+    
+    public virtual TextAsset Text()
+    {
+        var obj = JObject.FromObject(this);
+        return new TextAsset(JsonConvert.SerializeObject(obj));
     }
 }

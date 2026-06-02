@@ -6,6 +6,7 @@ using Il2CppVampireSurvivors.Objects.Characters;
 using Il2CppVampireSurvivors.Objects.Items;
 using Il2CppVampireSurvivors.Objects.Weapons;
 using Il2CppVampireSurvivors.Signals;
+using MelonLoader;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Random = UnityEngine.Random;
@@ -17,6 +18,7 @@ public class RubriccoController : ModCharacterController
     private static bool standing;
     private bool cooldown;
     private bool speed;
+    private bool once;
     private static CharacterController? _characterController;
 
     public override void AfterFullInit(CharacterController instance)
@@ -24,7 +26,9 @@ public class RubriccoController : ModCharacterController
         standing = false;
         cooldown = false;
         speed = false;
+        once = true;
         _characterController = instance;
+        _characterController._playerStats.Cooldown._val -= 0.1f;
         var prefixes = new List<MethodInfo>
         {
             typeof(Weapon).GetMethod("Fire", new Type[] {typeof(bool)}),
@@ -42,19 +46,20 @@ public class RubriccoController : ModCharacterController
 
     public override void OnUpdate(CharacterController instance)
     {
+        // this is backwards, but it works
         if (instance.Walked != 0f)
         {
             if (standing) return;
             standing = true;
             if (!cooldown)
             {
-                _characterController._playerStats.Cooldown._val -= 0.1f;
+                _characterController._playerStats.Cooldown._val += 0.1f;
                 cooldown = true;
             }
 
             if (!speed) return;
             
-            _characterController._playerStats.Speed._val -= 0.1f;
+            _characterController._playerStats.Speed._val += 0.1f;
             speed = false;
         }
         else
@@ -63,13 +68,15 @@ public class RubriccoController : ModCharacterController
             standing = false;
             if (cooldown)
             {
-                _characterController._playerStats.Cooldown._val += 0.1f;
+                _characterController._playerStats.Cooldown._val -= 0.1f;
                 cooldown = false;
             }
             if (!speed)
             {
-                _characterController._playerStats.Speed._val += 0.1f;
+                if (once) _characterController._playerStats.Speed._val += 0.1f;
+                _characterController._playerStats.Speed._val -= 0.1f;
                 speed = true;
+                once = false;
             }
         }
     }
@@ -80,7 +87,8 @@ public class RubriccoController : ModCharacterController
         {
             if (standing) return true;
             if (_characterController.WeaponsManager.ActiveEquipment.Count <= 1) return true;
-            return Random.Range(1 , 101) > 5;
+            var x = Random.Range(1, 101);
+            return x > 15;
         }
     }
 }
@@ -93,8 +101,12 @@ public sealed class RubriccoStats : BaseCharacterData
         SurName = "Puzzorelio";
         TextureName = "Rubricco_Puzzorelio_walk";
         SpriteName = "Rubricco_Puzzorelio_walk_01.png";
-        Description = "Sometimes it pays to focus, others to just run like crazy as long as you have an idea of what you are doing";
+        PortraitName = "p_rubricco.png";
+        Description = "Sometimes it pays to focus, others to just run like crazy as long as you have an idea of what you are doing. Gains -10% Cooldown when standing still. Gains +10% Projectile Speed when moving.";
         StartingWeapon = WeaponType.DIAMOND;
+        Cooldown -= 0.08f;
+        MaxHp -= 20;
+        Speed += 0.05f;
     }
 
     public override string JsonText()

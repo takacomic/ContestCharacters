@@ -1,7 +1,10 @@
 using System.Reflection;
 using CoffinTech.Utils;
 using HarmonyLib;
+using Il2CppVampireSurvivors.App.Tools;
 using Il2CppVampireSurvivors.Data;
+using Il2CppVampireSurvivors.Framework;
+using Il2CppVampireSurvivors.Objects.Algorithm;
 using Il2CppVampireSurvivors.Objects.Characters;
 using Il2CppVampireSurvivors.Objects.Items;
 using Il2CppVampireSurvivors.Objects.Pickups;
@@ -39,7 +42,7 @@ public class LuigiController : ModCharacterController
     private static void FoodBuffs()
     {
         var x = _characterController.transform.localScale.x;
-        if (_characterController._cachedTransform.localScale.x < 4f)
+        if (_characterController._cachedTransform.localScale.x < 6f)
             _characterController.setScale( x *= 1.02f, new Il2CppSystem.Nullable<float>());
         _characterController._playerStats.Power._val += 0.01f;
         _characterController._playerStats.Area._val += 0.01f;
@@ -66,16 +69,19 @@ public class LuigiController : ModCharacterController
 
 
 
-public sealed class LuigiStats : BaseCharacterData
+public class LuigiStats : BaseCharacterData
 {
     public LuigiStats()
     {
-        CharName = "Head Chef";
-        SurName = "Luigi";
-        TextureName = "chef_luigi_walk";
+        Prefix = "Head Chef";
+        CharName = "Luigi";
+        SurName = "";
+        TextureName = "Mortis_Surmanski_walk_duo";
         SpriteName = "chef_luigi_walk_01.png";
-        Description = "Gets stronger (and larger) the more he eats";
+        PortraitName = "p_luigi.png";
+        Description = "Gets stronger (and larger) the more he eats. Gains +1% Might and Area, +2 Max Hp, -2% Move Speed, and -1% Projectile Speed on when consuming food.";
         StartingWeapon = WeaponType.HELLFIRE;
+        MoveSpeed += 0.05f;
     }
 
     public override string JsonText()

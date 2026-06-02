@@ -1,9 +1,16 @@
+using System.Reflection;
 using CoffinTech.Utils;
+using Il2CppVampireSurvivors;
 using Il2CppVampireSurvivors.Data;
+using Il2CppVampireSurvivors.Data.Items;
 using Il2CppVampireSurvivors.Data.Weapons;
 using Il2CppVampireSurvivors.Framework;
 using Il2CppVampireSurvivors.Objects.Characters;
+using Il2CppVampireSurvivors.Objects.Items;
 using Il2CppVampireSurvivors.Objects.Pickups;
+using Il2CppVampireSurvivors.Signals;
+using Il2CppVampireSurvivors.UI;
+using MelonLoader;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Action = System.Action;
@@ -13,30 +20,27 @@ namespace ContestCharacters.characters.top16;
 
 public class ZetaController : ModCharacterController
 {
-    private CharacterController? _characterController;
+    private static CharacterController? _characterController;
     public override void AfterFullInit(CharacterController instance)
     {
         _characterController = instance;
         
-        List<WeaponType> evos = new();
-        foreach (var specialWeapon in instance._gameManager.LevelUpFactory.SpecialWeapons)
+        var prefixes = new List<MethodInfo>
         {
-            var data = instance._dataManager.GetConvertedWeapons()[specialWeapon][0];
-            if (!data.isEvolution) continue;
-            
-            evos.Add(specialWeapon);
-        }
-
-        foreach (var evo in evos)
-        {
-            instance._gameManager.LevelUpFactory.SpecialWeapons.Remove(evo);
-            instance._gameManager._levelUpFactory.WeaponStore.AddLast(evo);
-        }
-        
-        instance._gameManager._levelUpFactory.CalculateWeights(instance);
-        evos.Clear();
+            typeof(LevelUpPage).GetMethod("SpawnWeapon"),
+            typeof(ZetaHarmony).GetMethod("LevelUpPageSpawnWeapon")
+        };
+        HarmonyPatching.Patch(typeof(ZetaHarmony), prefixes);
+        instance._signalBus.Subscribe<GameplaySignals.ResetGameSessionSignal>(new Action(ExitToRecap));
 
         instance._onCriticalHP = new Action(RandomPickup);
+        ZetaHarmony._pickedWeapons.Clear();
+    }
+    
+    private void ExitToRecap()
+    {
+        HarmonyPatching.UnPatch(typeof(ZetaHarmony));
+        _characterController._signalBus.TryUnsubscribe<GameplaySignals.ResetGameSessionSignal>(new Action(ExitToRecap));
     }
 
     private void RandomPickup()
@@ -53,6 +57,29 @@ public class ZetaController : ModCharacterController
         var rand = Random.Range(0, 27);
         GM.Core.MakePickup(_characterController.CurrentPos ,pickup[rand]);
     }
+    
+    internal static class ZetaHarmony
+    {
+        internal static List<WeaponType> _pickedWeapons = new();
+        public static void LevelUpPageSpawnWeapon(LevelUpPage __instance, ref WeaponData data, ref WeaponType type, int index)
+        {
+            if (Random.Range(0, 100) >= 1) return;
+            foreach (var kvp in __instance._data.GetConvertedWeapons())
+            {
+                var wType = kvp.Key;
+                var wData = kvp.Value[0];
+                if (!wData.isEvolution) continue;
+                if (_pickedWeapons.Contains(wType)) continue;
+                if (GM.Core.LevelUpFactory.BanishedWeapons.Contains(wType)) continue;
+                if (_characterController.WeaponsManager.ActiveEquipment.Count > 5) return;
+                if (Random.Range(0, 100) >= 20) continue;
+                data = wData;
+                type = wType;
+                _pickedWeapons.Add(type);
+                return;
+            }
+        }
+    }
 }
 
 public sealed class ZetaStats : BaseCharacterData
@@ -63,6 +90,7 @@ public sealed class ZetaStats : BaseCharacterData
         SurName = "Settetails";
         TextureName = "zeta_walk";
         SpriteName = "zeta_walk_01.png";
+        PortraitName = "p_zeta.png";
         Description = "Can find evolutions in levelups. Triggers a random pickup when health reaches crit level. Gains +1 revival every 10 levels (max +6)";
         StartingWeapon = WeaponType.VOID;
         MaxHp -= 50;

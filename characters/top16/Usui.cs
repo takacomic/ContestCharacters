@@ -16,6 +16,7 @@ public class UsuiController : ModCharacterController
     public override void AfterFullInit(CharacterController instance)
     {
         _characterController = instance;
+        instance.PlayerStats.Cooldown.Val -= 0.3f;
         var postfixes = new List<MethodInfo>
         {
             typeof(CharacterController).GetMethod("RecoverHp"),
@@ -59,8 +60,12 @@ public sealed class UsuiStats : BaseCharacterData
         SurName = "Yukimi";
         TextureName = "Usui_Yukimi_walk";
         SpriteName = "Usui_Yukimi_walk_01.png";
-        Description = "Kitsune far from home.";
+        PortraitName = "p_usui.png";
+        Description = "Kitsune far from home. Chance to freeze enemies on overheal";
         StartingWeapon = WeaponType.SANTAJAVELIN;
+        MaxHp = 90;
+        MoveSpeed += 0.3f;
+        Curse += 0.2f;
     }
 
     public override string JsonText()
@@ -68,6 +73,18 @@ public sealed class UsuiStats : BaseCharacterData
         var jArray = new JArray();
         var obj = JObject.FromObject(this);
         jArray.Add(obj);
+        jArray.Add(new JObject(
+            new JProperty("level", 1),
+            new JProperty("cooldown", -0.3)));
+        jArray.Add(new JObject(
+            new JProperty("level", 2),
+            new JProperty("cooldown", +0.1)));
+        jArray.Add(new JObject(
+            new JProperty("level", 3),
+            new JProperty("cooldown", +0.1)));
+        jArray.Add(new JObject(
+            new JProperty("level", 4),
+            new JProperty("cooldown", +0.1)));
         jArray.Add(Level20);
         jArray.Add(Level21);
         jArray.Add(Level40);

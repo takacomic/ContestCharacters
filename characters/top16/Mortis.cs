@@ -27,8 +27,8 @@ public class MortisController : ModCharacterController
     private void MakeEnemyFollower()
     {
         if (_characterController?._gameManager.GetLatestKilledEnemyThatCanBeFollower() == null) return;
-        if (_characterController._gameManager.GetNumAliveEnemyFollowers(_characterController) >= 5) return;
-        if (Random.Range(1, 101) > (10 * _characterController.PCurse())) return;
+        if (_characterController._gameManager.GetNumAliveEnemyFollowers(_characterController) >= 8) return;
+        if (Random.Range(1, 81) > (10 * _characterController.PCurse())) return;
             
         var enemyFollower = _characterController._gameManager.AddLastEnemyFollower(_characterController);
             
@@ -101,16 +101,21 @@ public class MortisController : ModCharacterController
     }
 }
 
-public sealed class MortisStats : BaseCharacterData
+public class MortisStats : BaseCharacterData
 {
     public MortisStats()
     {
         CharName = "Mortis";
         SurName = "Surmanski";
-        TextureName = "Mortis_Surmanski_walk";
+        TextureName = "Mortis_Surmanski_walk_duo";
         SpriteName = "Mortis_Surmanski_walk_01.png";
+        PortraitName = "p_mortis.png";
         Description = "Can bring dead monsters back to life. Every 60 revived monsters increases a random permanent stat.";
         StartingWeapon = WeaponType.HOLYBOOK;
+        MaxHp = 60;
+        MoveSpeed += 0.15f;
+        Power -= 0.25f;
+        Cooldown -= 0.15f;
     }
 
     public override string JsonText()

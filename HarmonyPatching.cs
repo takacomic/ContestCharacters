@@ -14,7 +14,7 @@ public static class HarmonyPatching
     {
         if (prefix == null && postfix != null)
         {
-            _methodsDictionary.Add(type, postfix);
+            if (!_methodsDictionary.TryAdd(type, postfix)) return;
             for (var i = 0; i < postfix.Count; i += 2)
             {
                 _harmonyInstance.Patch(postfix[i], postfix: new HarmonyMethod(type, postfix[i + 1].Name));
@@ -22,7 +22,7 @@ public static class HarmonyPatching
         }
         else if (prefix != null && postfix == null)
         {
-            _methodsDictionary.Add(type, prefix);
+            if (!_methodsDictionary.TryAdd(type, prefix)) return;
             for (var i = 0; i < prefix.Count; i += 2)
             {
                 _harmonyInstance.Patch(prefix[i], prefix: new HarmonyMethod(type, prefix[i + 1].Name));
@@ -30,17 +30,21 @@ public static class HarmonyPatching
         }
         else if (prefix != null && postfix != null)
         {
+            if (!_methodsDictionary.TryAdd(type, prefix)) return;
             for (var i = 0; i < prefix.Count; i += 2)
             {
+                MelonLogger.Msg($"Patching {prefix[i]}: with {prefix[i + 1]}");
                 _harmonyInstance.Patch(prefix[i], prefix: new HarmonyMethod(type, prefix[i + 1].Name));
             }
-            
             for (var i = 0; i < postfix.Count; i += 2)
             {
+                MelonLogger.Msg($"Patching {postfix[i]}: with {postfix[i + 1]}");
                 _harmonyInstance.Patch(postfix[i], postfix: new HarmonyMethod(type, postfix[i + 1].Name));
-                prefix.AddRange(postfix);
             }
-            _methodsDictionary.Add(type, prefix);
+
+            _methodsDictionary.Remove(type);
+            prefix.AddRange(postfix);
+            if (!_methodsDictionary.TryAdd(type, prefix)) return;
         }
     }
 

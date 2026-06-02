@@ -5,8 +5,14 @@ using Newtonsoft.Json;
 using CoffinTech.SaveData;
 using CoffinTech.Utils;
 using ContestCharacters.characters;
+using ContestCharacters.characters.secret;
 using ContestCharacters.characters.top16;
+using ContestCharacters.Items;
+using Il2CppI2.Loc;
 using Il2CppNewtonsoft.Json.Linq;
+using Il2CppVampireSurvivors.App.Data;
+using Il2CppVampireSurvivors.Framework.DLC;
+using Il2CppVampireSurvivors.Graphics;
 using Il2CppVampireSurvivors.Objects.Characters;
 using Il2CppVampireSurvivors.Objects.Projectiles;
 using MelonLoader;
@@ -15,13 +21,13 @@ using UnityEngine;
 namespace ContestCharacters;
     internal static class DataManagerPatches
     {
-        internal static Dictionary<string, CharacterType> IdToType = new();
+        
         internal static readonly JsonSerializerSettings SerializerSettings = new()
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             NullValueHandling = NullValueHandling.Ignore
         };
-        
+
         [HarmonyPatch(typeof(DataManager))]
         static class DataManagerPatch
         {
@@ -29,62 +35,53 @@ namespace ContestCharacters;
             [HarmonyPostfix]
             static void LoadBaseJObjects_Postfix(DataManager __instance, object[] __args, MethodBase __originalMethod)
             {
+                ModMenu.ModMenu._dataManager = __instance;
                 SpriteRegister();
-                CharacterRegister(__instance);
+                /*JArray array = __instance._allCustomMerchantsJson["MARIASOFIA"]["merchantInventoryItems"].Cast<JArray>();
+                array.Add("100000");
+                JArray array2 = __instance._allCustomMerchantsJson["MARIASOFIA"]["DLC"].Cast<JArray>();
+                array2.Add("100000");
+                __instance._allCustomMerchantsJson["MARIASOFIA"]["merchantInventoryItems"] = array;
+                __instance._allCustomMerchantsJson["MARIASOFIA"]["DLC"] = array2;*/
+                
+                var obby2 = new JObject();
+                obby2.Add("textureName", "beta_seal");
+                obby2.Add("frameName", "beta_seal.png");
+                obby2.Add("destroyedAmount", 0);
+                obby2.Add("maxHp", 50);
+                obby2.Add("destructibleType", "100000");
+                
+                __instance._allPropsJson.Add("100000", obby2);
+                
+                /*MelonLogger.Msg(ContestCharactersMod.CharacterIdToType["ContestCharacterZeta"].ToString());
+                JObject achievement = new JObject();
+                achievement.Add("description", "Find and open the coffin in the Eudaimonia Machine."); 
+                achievement.Add("mistery", true );
+                achievement.Add("achieved", false );
+                achievement.Add("characterToUnlock", ContestCharactersMod.CharacterIdToType["ContestCharacterZeta"].ToString() );
+                
+                MelonLogger.Msg(achievement.ToString());
+                __instance._allSecretsJson.Add("100001", achievement);*/
+            }
+
+            [HarmonyPatch(nameof(DataManager.MergeInJsonData))]
+            [HarmonyPostfix]
+            static void InternalMergeInJsonData_Postfix(DataManager __instance, object[] __args,
+                MethodBase __originalMethod)
+            {
+                
             }
         }
 
         static void SpriteRegister()
         {
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            string[] assets =
+            Sprite[] sprites = ContestCharactersMod.bundle.LoadAll<Sprite>();
+            foreach (var sprite in sprites)
             {
-                "chef_luigi_walk.png", "Enzo_Brigante_walk.png", "Gourdtellio_Crowlaguard_walk.png",
-                "Mortis_Surmanski_walk.png", "Piuma_Ferro_walk.png", "Roller_Brawlerweed_walk.png",
-                "Sir_Bone_walk.png", "specimen_40_walk.png", "baron_husker_walk.png", "Rubricco_Puzzorelio_walk.png",
-                "Usui_Yukimi_walk.png", "Ashnard_Brenen_walk.png", "beta_walk.png", "zeta_walk.png",
-                "Slein_walk.png", "Guillotina_Ravera_walk.png"
-            };
-
-            foreach (var asset in assets)
-            {
-                Texture2D texture = SpriteImporter.LoadTextureFromAssembly(assembly, "ContestCharacters.resources",asset);
-                SpriteImporter.SpriteStrip(texture, asset.Split('.').First(), 4);
+                SpriteManager.RegisterSprite(sprite);
             }
+            PaletteSwapper._bundle = ContestCharactersMod.bundle;
         }
 
-        private static void CharacterRegister(DataManager __instance)
-        {
-            CharacterRegister<GourdtellioController, GourdtellioStats>(__instance, "ContestCharacterGourd");
-            CharacterRegister<RollerBrawlerweedController, RollerBrawlerweedStats>(__instance, "ContestCharacterRoller");
-            CharacterRegister<AshnardController, AshnardStats>(__instance, "ContestCharacterAshnard");
-            CharacterRegister<BaronController, BaronStats>(__instance, "ContestCharacterBaron");
-            CharacterRegister<BetaController, BetaStats>(__instance, "ContestCharacterBeta");
-            CharacterRegister<ZetaController, ZetaStats>(__instance, "ContestCharacterZeta");
-            CharacterRegister<LuigiController, LuigiStats>(__instance, "ContestCharacterLuigi");
-            CharacterRegister<EnzoController, EnzoStats>(__instance, "ContestCharacterEnzo");
-            CharacterRegister<MortisController, MortisStats>(__instance, "ContestCharacterMortis");
-            CharacterRegister<PiumaController, PiumaStats>(__instance, "ContestCharacterPiuma");
-            CharacterRegister<RubriccoController, RubriccoStats>(__instance, "ContestCharacterRubricco");
-            CharacterRegister<SirBoneController, SirBoneStats>(__instance, "ContestCharacterSirBone");
-            CharacterRegister<UsuiController, UsuiStats>(__instance, "ContestCharacterUsui");
-            CharacterRegister<GuillotinaController, GuillotinaStats>(__instance, "ContestCharacterGuillotina");
-            CharacterRegister<SpecimenController, SpecimenStats>(__instance, "ContestCharacterSpecimen");
-            CharacterRegister<SleinController, SleinStats>(__instance, "ContestCharacterSlein");
-        }
-
-        private static void CharacterRegister<TController, TStats>(DataManager manager, string characterId)
-            where TController : ModCharacterController, new()
-            where TStats : BaseCharacterData, new()
-        {
-            var characterType =
-                ModCharacterControllerRegistry.Register(ModCharacterController.GetInstance<TController>());
-            ModOptionsData.SetCharacterId(characterType, characterId);
-            
-            var json = new TStats().JsonText();
-            var jArray = JArray.Parse(json);
-
-            manager._allCharactersJson.Add(characterType.ToString(), jArray);
-            IdToType.Add(characterId, characterType);
-        }
+        
     }
