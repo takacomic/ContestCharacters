@@ -107,6 +107,7 @@ public class RatController : ModCharacterController
 	        EnemyController component = first.gameObject.GetComponent<EnemyController>();
 	        if (component == null) return;
 	        if (component.IsDead) return;
+	        if (PoisonComponent._count >= 80) return;
 	        
 	        //if (!second.gameObject.GetComponent<Projectile>().HasAlreadyHitObject(component.Cast<IDamageable>())) return;
 	        
@@ -117,7 +118,7 @@ public class RatController : ModCharacterController
         
         public static void HolyWaterProjectileInitProjectile(HolyWaterProjectile __instance)
 		{
-			__instance._GroundFx.color = new UnityEngine.Color(0.0f, 1.0f, 0.0f, 0.2f);
+			__instance._GroundFx.color = new UnityEngine.Color(1.0f, 0.0f, 1.0f, 0.2f);
 			
 			__instance._explosionCircle = new Circle(0f, 0f, 8f);
 			Il2CppSystem.Collections.Generic.List<string> projectiles = new ();
@@ -188,7 +189,7 @@ public class RatController : ModCharacterController
         
         public static void BoraProjectileInitProjectile(BoraProjectile __instance)
 		{
-			__instance._GroundFx._spriteRenderer.color = new UnityEngine.Color(0.0f, 1.0f, 0.0f, 0.2f);
+			__instance._GroundFx._spriteRenderer.color = new UnityEngine.Color(1.0f, 0.0f, 1.0f, 0.2f);
 			
 			__instance._explosionCircle = new Circle(0f, 0f, 8f);
 			Il2CppSystem.Collections.Generic.List<string> projectiles = new ();

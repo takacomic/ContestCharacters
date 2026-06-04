@@ -28,10 +28,10 @@ namespace ContestCharacters;
 
 internal static class ModInfo
 {
-    public const string Name = "GalloTower?";
-    public const string Author = "???";
-    public const string Version = "1.0.0";
-    public const string Download = "?";
+    public const string Name = "Contest Characters";
+    public const string Author = "Takacomic";
+    public const string Version = "1.0.1";
+    public const string Download = "https://github.com/takacomic/ContestCharacters/releases";
 }
 
 public class ContestCharactersMod : MelonMod
@@ -67,7 +67,7 @@ public class ContestCharactersMod : MelonMod
         JObject jObject2 = new();
         
         List<object> dlcStuffs = new();
-        dlcStuffs.Add("???");
+        dlcStuffs.Add("Contest Characters");
         dlcStuffs.Add("1.0.000");
         dlcStuffs.Add(PopulateDataSettings(items, secrets, characters));
         DlcPatches.AddDlc((DlcType)100000, dlcStuffs);
@@ -84,30 +84,29 @@ public class ContestCharactersMod : MelonMod
     
     private static void CharacterRegister()
         {
-            CharacterRegister<ZetaController, ZetaStats>("ContestCharacterZeta");
-            CharacterRegister<UsuiController, UsuiStats>("ContestCharacterUsui");
-            CharacterRegister<AshnardController, AshnardStats>("ContestCharacterAshnard");
-            CharacterRegister<PiumaController, PiumaStats>("ContestCharacterPiuma");
-            CharacterRegister<LuigiController, LuigiStats>("ContestCharacterLuigi");
-            CharacterRegister<GuillotinaController, GuillotinaStats>("ContestCharacterGuillotina");
-            CharacterRegister<MortisController, MortisStats>("ContestCharacterMortis");
-            CharacterRegister<SirBoneController, SirBoneStats>("ContestCharacterSirBone");
-            CharacterRegister<EnzoController, EnzoStats>("ContestCharacterEnzo");
-            CharacterRegister<RubriccoController, RubriccoStats>("ContestCharacterRubricco");
-            CharacterRegister<BetaController, BetaStats>("ContestCharacterBeta");
-            CharacterRegister<SleinController, SleinStats>("ContestCharacterSlein");
-            CharacterRegister<SpecimenController, SpecimenStats>("ContestCharacterSpecimen");
-            CharacterRegister<RollerBrawlerweedController, RollerBrawlerweedStats>("ContestCharacterRoller");
-            CharacterRegister<GourdtellioController, GourdtellioStats>("ContestCharacterGourdtellio");
-            CharacterRegister<BaronController, BaronStats>("ContestCharacterBaron");
+            CharacterRegister<ZetaController>("ContestCharacterZeta");
+            CharacterRegister<UsuiController>("ContestCharacterUsui");
+            CharacterRegister<AshnardController>("ContestCharacterAshnard");
+            CharacterRegister<PiumaController>("ContestCharacterPiuma");
+            CharacterRegister<LuigiController>("ContestCharacterLuigi");
+            CharacterRegister<GuillotinaController>("ContestCharacterGuillotina");
+            CharacterRegister<MortisController>("ContestCharacterMortis");
+            CharacterRegister<SirBoneController>("ContestCharacterSirBone");
+            CharacterRegister<EnzoController>("ContestCharacterEnzo");
+            CharacterRegister<RubriccoController>("ContestCharacterRubricco");
+            CharacterRegister<BetaController>("ContestCharacterBeta");
+            CharacterRegister<SleinController>("ContestCharacterSlein");
+            CharacterRegister<SpecimenController>("ContestCharacterSpecimen");
+            CharacterRegister<RollerBrawlerweedController>("ContestCharacterRoller");
+            CharacterRegister<GourdtellioController>("ContestCharacterGourdtellio");
+            CharacterRegister<BaronController>("ContestCharacterBaron");
             
-            CharacterRegister<LuigiMortisController, LuigiMortisStats>("ContestCharacterLuigiMortis");
-            CharacterRegister<RatController, LuigiMortisStats>("ContestCharacterRat");
+            CharacterRegister<LuigiMortisController>("ContestCharacterLuigiMortis");
+            CharacterRegister<RatController>("ContestCharacterRat");
         }
 
-        private static void CharacterRegister<TController, TStats>(string characterId)
+        private static void CharacterRegister<TController>(string characterId)
             where TController : ModCharacterController, new()
-            where TStats : BaseCharacterData, new()
         {
             ModCharacterControllerRegistry.Register(ModCharacterController.GetInstance<TController>(), characterId);
             

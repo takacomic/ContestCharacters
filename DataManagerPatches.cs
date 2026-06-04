@@ -37,12 +37,6 @@ namespace ContestCharacters;
             {
                 ModMenu.ModMenu._dataManager = __instance;
                 SpriteRegister();
-                /*JArray array = __instance._allCustomMerchantsJson["MARIASOFIA"]["merchantInventoryItems"].Cast<JArray>();
-                array.Add("100000");
-                JArray array2 = __instance._allCustomMerchantsJson["MARIASOFIA"]["DLC"].Cast<JArray>();
-                array2.Add("100000");
-                __instance._allCustomMerchantsJson["MARIASOFIA"]["merchantInventoryItems"] = array;
-                __instance._allCustomMerchantsJson["MARIASOFIA"]["DLC"] = array2;*/
                 
                 var obby2 = new JObject();
                 obby2.Add("textureName", "beta_seal");
@@ -52,24 +46,6 @@ namespace ContestCharacters;
                 obby2.Add("destructibleType", "100000");
                 
                 __instance._allPropsJson.Add("100000", obby2);
-                
-                /*MelonLogger.Msg(ContestCharactersMod.CharacterIdToType["ContestCharacterZeta"].ToString());
-                JObject achievement = new JObject();
-                achievement.Add("description", "Find and open the coffin in the Eudaimonia Machine."); 
-                achievement.Add("mistery", true );
-                achievement.Add("achieved", false );
-                achievement.Add("characterToUnlock", ContestCharactersMod.CharacterIdToType["ContestCharacterZeta"].ToString() );
-                
-                MelonLogger.Msg(achievement.ToString());
-                __instance._allSecretsJson.Add("100001", achievement);*/
-            }
-
-            [HarmonyPatch(nameof(DataManager.MergeInJsonData))]
-            [HarmonyPostfix]
-            static void InternalMergeInJsonData_Postfix(DataManager __instance, object[] __args,
-                MethodBase __originalMethod)
-            {
-                
             }
         }
 

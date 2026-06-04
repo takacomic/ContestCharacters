@@ -12,6 +12,7 @@ namespace ContestCharacters.unlockpatches;
 public class MortisUnlock
 {
     private static EnemyController? _enemyController = null;
+    private static bool deathSummoned = false;
     private static int _minute = 0;
     
     [HarmonyPatch(nameof(BackgroundRash.CheckMinute))]
@@ -37,6 +38,8 @@ public class MortisUnlock
                 if (enemyController == null) continue;
                 if (enemyController._enemyType == EnemyType.BOSS_XLDEATH)
                     _enemyController = enemyController;
+                if (deathSummoned) break;
+                deathSummoned = true;
                 break;
             }
         }
@@ -47,5 +50,15 @@ public class MortisUnlock
             var characterType = ModOptionsData.CustomCharacter("ContestCharacterMortis").Value;
             InGameUnlocks.InGameSecretCharacterUnlock(characterType);
         }
+    }
+    
+    [HarmonyPatch(typeof(WhiteHandManager), nameof(WhiteHandManager.SummonWhiteHand))]
+    [HarmonyPostfix]
+    private static void SummonWhiteHandPostfix(WhiteHandManager __instance)
+    {
+        if (!deathSummoned) return;
+        if (!GM.Core.PlayerOptions.UnlockSecret(ModOptionsData.CustomSecret("ContestCharacterMortisUnlock").Value)) return;
+        var characterType = ModOptionsData.CustomCharacter("ContestCharacterMortis").Value;
+        InGameUnlocks.InGameSecretCharacterUnlock(characterType);
     }
 }
