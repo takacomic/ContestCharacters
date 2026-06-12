@@ -36,6 +36,7 @@ public class SecretsPagePatches
         __instance._characters.Add('8');
         __instance._characters.Add('9');
         __instance._characters.Add('0');
+        __instance._characters.Add('?');
     }
 
     [HarmonyPatch(nameof(SecretsPage.OnShowStart))]
