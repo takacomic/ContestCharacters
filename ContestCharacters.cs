@@ -46,7 +46,6 @@ public class ContestCharactersMod : MelonMod
         ClassInjector.RegisterTypeInIl2Cpp<PoisonComponent>();
         JObject jObject = new();
         TextAsset items = new();
-        TextAsset secrets = new();
         TextAsset characters = new();
         using (Stream? stream = System.Reflection.Assembly.GetExecutingAssembly()
                    .GetManifestResourceStream("ContestCharacters.resources.contestbundle"))
@@ -57,7 +56,6 @@ public class ContestCharactersMod : MelonMod
             Il2CppSystem.IO.MemoryStream il2MemoryStream = new(memoryStream.ToArray());
             bundle = Il2CppAssetBundleManager.LoadFromStream(il2MemoryStream);
             items = bundle.LoadAsset<TextAsset>("items.json");
-            secrets = bundle.LoadAsset<TextAsset>("secrets.json");
             characters = bundle.LoadAsset<TextAsset>("characters.json");
         }
         CharacterRegister();
@@ -69,7 +67,7 @@ public class ContestCharactersMod : MelonMod
         List<object> dlcStuffs = new();
         dlcStuffs.Add("Contest Characters");
         dlcStuffs.Add("1.0.000");
-        dlcStuffs.Add(PopulateDataSettings(items, secrets, characters));
+        dlcStuffs.Add(PopulateDataSettings(items, null, characters));
         DlcPatches.AddDlc((DlcType)100000, dlcStuffs);
 #if DEBUG
         OtherPluginPresent = RegisteredMelons
@@ -120,13 +118,12 @@ public class ContestCharactersMod : MelonMod
         
         
     
-        private static DataManagerSettings PopulateDataSettings(TextAsset items, TextAsset secrets, TextAsset characters)
+        private static DataManagerSettings PopulateDataSettings(TextAsset items, TextAsset? secrets, TextAsset characters)
         {
             var settings = new DataManagerSettings
             {
                 _CharacterDataJsonAsset = characters,
-                _ItemDataJsonAsset = items,
-                _SecretsDataJsonAsset = secrets
+                _ItemDataJsonAsset = items
             };
             
             return settings;

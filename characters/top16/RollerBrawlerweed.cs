@@ -39,10 +39,10 @@ public class RollerBrawlerweedController : ModCharacterController
         player.setScale(player._cachedTransform.localScale.x + 0.005f, new Il2CppSystem.Nullable<float>());
         if (!(player._cachedTransform.localScale.x > 10.1) || !GourdtellioUnlock._gourdtellioUnlockReady || _unlocked) return;
         
-        if (!GM.Core.PlayerOptions.UnlockSecret(ModOptionsData.CustomSecret("ContestCharacterGourdtellioUnlock").Value)) return;
+        /*if (!GM.Core.PlayerOptions.UnlockSecret(ModOptionsData.CustomSecret("ContestCharacterGourdtellioUnlock").Value)) return;
         var characterType = ModOptionsData.CustomCharacter("ContestCharacterGourdtellio").Value;
         InGameUnlocks.InGameSecretCharacterUnlock(characterType);
-        _unlocked = true;
+        _unlocked = true;*/
     }
     private void GrowDamage()
     {

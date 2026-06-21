@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <Company>ContestCharacters</Company>
         <Product>ContestCharacters</Product>
+        <AssemblyName>ContestCharactersUnlockBuild</AssemblyName>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

@@ -48,10 +48,10 @@ public class BaronController : ModCharacterController
         prefixes.Add(typeof(BaronHarmony).GetMethod("PickupSetFrame"));
         prefixes.Add(typeof(BattiliaProjectile).GetMethod("InitProjectile"));
         prefixes.Add(typeof(BaronHarmony).GetMethod("BattiliaProjectileInitProjectile"));
-        postfixes.Add(typeof(EnemyController).GetMethod("Die"));
-        postfixes.Add(typeof(BaronHarmony).GetMethod("EnemyControllerDie"));
+        prefixes.Add(typeof(EnemyController).GetMethod("Die"));
+        prefixes.Add(typeof(BaronHarmony).GetMethod("EnemyControllerDie"));
         
-        HarmonyPatching.Patch(typeof(BaronHarmony), prefixes, postfixes);
+        HarmonyPatching.Patch(typeof(BaronHarmony), prefixes);
         instance._signalBus.Subscribe<GameplaySignals.ResetGameSessionSignal>(new Action(ExitToRecap));
     }
     
@@ -210,6 +210,7 @@ public class BaronController : ModCharacterController
         public static void EnemyControllerDie(EnemyController __instance)
         {
             if (_characterController == null) return;
+            if (__instance) return;
             if (Random.Range(0, 150) >= 2) return;
             
             var item = GM.Core.MakePickup(__instance.CurrentPos, ItemType.ROAST);
