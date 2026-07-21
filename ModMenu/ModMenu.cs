@@ -19,24 +19,24 @@ public static class ModMenu
     internal static DataManager _dataManager;
     private static void ResetCharacters()
     {
-        foreach (var kvp in ContestCharactersMod.CharacterIdToType)
+        /*foreach (var kvp in ContestCharactersMod.CharacterIdToType)
         {
             _dataManager._playerOptions.Config.UnlockedCharacters.Remove(kvp.Value);
             _dataManager._playerOptions.Config.BoughtCharacters.Remove(kvp.Value);
             _dataManager._playerOptions.Config.OpenedCoffins.Remove(kvp.Value);
-        }
+        }*/
         _dataManager._playerOptions.Save();
     }
     
     private static void ResetAll()
     {
         _dataManager._playerOptions.Config.CollectedItems.Remove(ModOptionsData.CustomItem("ContestCharacterContestDisk").Value);
-        foreach (var kvp in ContestCharactersMod.CharacterIdToType)
+        /*foreach (var kvp in ContestCharactersMod.CharacterIdToType)
         {
             _dataManager._playerOptions.Config.UnlockedCharacters.Remove(kvp.Value);
             _dataManager._playerOptions.Config.OpenedCoffins.Remove(kvp.Value);
             _dataManager._playerOptions.Config.BoughtCharacters.Remove(kvp.Value);
-        }
+        }*/
         _dataManager._playerOptions.Save();
     }
     

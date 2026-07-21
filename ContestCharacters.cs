@@ -30,14 +30,13 @@ internal static class ModInfo
 {
     public const string Name = "Contest Characters";
     public const string Author = "Takacomic";
-    public const string Version = "1.0.1";
+    public const string Version = "1.1.0";
     public const string Download = "https://github.com/takacomic/ContestCharacters/releases";
 }
 
 public class ContestCharactersMod : MelonMod
 {
     internal static JObject CharacterData = new();
-    internal static Dictionary<string, CharacterType> CharacterIdToType = new();
     internal static Il2CppAssetBundle bundle;
     public static bool OtherPluginPresent { get; private set; }
 
@@ -61,9 +60,6 @@ public class ContestCharactersMod : MelonMod
             characters = bundle.LoadAsset<TextAsset>("characters.json");
         }
         CharacterRegister();
-        //CharacterIdToType.Add("ContestCharacterRat", (CharacterType)100017);
-        //CharacterIdToType.Add("ContestCharacterNyx", (CharacterType)100018);
-        ModOptionsData.CustomSecret("DirecterWillNotLikeThis");
         JObject jObject2 = new();
         
         List<object> dlcStuffs = new();
@@ -103,6 +99,7 @@ public class ContestCharactersMod : MelonMod
             
             CharacterRegister<LuigiMortisController>("ContestCharacterLuigiMortis");
             CharacterRegister<RatController>("ContestCharacterRat");
+            CharacterRegister<VinzonController>("ContestCharacterVinzon");
         }
 
         private static void CharacterRegister<TController>(string characterId)

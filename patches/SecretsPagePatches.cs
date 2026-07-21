@@ -52,6 +52,7 @@ public class SecretsPagePatches
         bool flag6 = __instance._playerOptions.Config.HasCollectedItem(ModOptionsData.CustomItem("ContestCharacterContestDisk").Value);
         bool flag7 = __instance._playerOptions.Config.UnlockedCharacters.Contains(ModOptionsData.CustomCharacter("ContestCharacterBaron").Value);
         bool flag8 = __instance._playerOptions.Config.UnlockedCharacters.Contains(ModOptionsData.CustomCharacter("ContestCharacterPiuma").Value);
+        bool flag9 = __instance._playerOptions.Config.UnlockedCharacters.Contains(ModOptionsData.CustomCharacter("ContestCharacterVinzon").Value);
         if (flag)
         {
             __instance._secrets[ModOptionsData.CustomSecret("ContestCharacterARG2Unlock").Value].hidden = false;
@@ -81,10 +82,15 @@ public class SecretsPagePatches
         {
             __instance._secrets[ModOptionsData.CustomSecret("ContestCharacterDuoUnlock").Value].hidden = false;
             __instance._secrets[ModOptionsData.CustomSecret("ContestCharacterRatUnlock").Value].hidden = false;
+            __instance._secrets[ModOptionsData.CustomSecret("ContestCharacterVinzonUnlock").Value].hidden = false;
         }
         if (flag8)
         {
             __instance._secrets[ModOptionsData.CustomSecret("ContestCharacterPiumaSkinUnlock").Value].hidden = false;
+        }
+        if (flag9)
+        {
+            __instance._secrets[ModOptionsData.CustomSecret("ContestCharacterVinzonSkinUnlock").Value].hidden = false;
         }
     }
 
