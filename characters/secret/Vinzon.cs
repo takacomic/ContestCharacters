@@ -22,7 +22,7 @@ public class VinzonController : ModCharacterController
         { WeaponType.FIREBALL, WeaponType.HELLFIRE},
         { WeaponType.LIGHTNING, WeaponType.LOOP },
         { WeaponType.MISSPELL, WeaponType.MISSPELL2 },
-        { WeaponType.ICELANCE, WeaponType.ICELANCE },
+        { WeaponType.ICELANCE, WeaponType.ICELANCE2 },
         { WeaponType.FOLLOWER_KNIFE1, WeaponType.FOLLOWER_KNIFE2 }
     };
     private Dictionary<WeaponType, WeaponType> _tpWeapons = new()
@@ -31,7 +31,7 @@ public class VinzonController : ModCharacterController
         { WeaponType.FIREBALL, WeaponType.TP_AURABLAST_WEAPON2},
         { WeaponType.LIGHTNING, WeaponType.TP_SWORD_BROTHERS2 },
         { WeaponType.MISSPELL, WeaponType.MISSPELL2 },
-        { WeaponType.ICELANCE, WeaponType.ICELANCE },
+        { WeaponType.ICELANCE, WeaponType.ICELANCE2 },
         { WeaponType.FOLLOWER_KNIFE1, WeaponType.FOLLOWER_KNIFE2 }
     };
     
