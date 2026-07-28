@@ -20,11 +20,10 @@ public class MortisController : ModCharacterController
         _followerNum = 0;
         _followerTotal = 0;
         
-        instance._signalBus.Subscribe<GameplaySignals.EnemyKilledImmediateSignal>(
-            new Action(MakeEnemyFollower));
+        EnemyController.OnKilledImmediate += new Action<EnemyController>(MakeEnemyFollower);
     }
 
-    private void MakeEnemyFollower()
+    private void MakeEnemyFollower(EnemyController enemyController)
     {
         if (_characterController?._gameManager.GetLatestKilledEnemyThatCanBeFollower() == null) return;
         if (_characterController._gameManager.GetNumAliveEnemyFollowers(_characterController) >= 8) return;
@@ -98,35 +97,5 @@ public class MortisController : ModCharacterController
                 _characterController.PlayerStats.Speed += 0.1f;
                 break;
         }
-    }
-}
-
-public class MortisStats : BaseCharacterData
-{
-    public MortisStats()
-    {
-        CharName = "Mortis";
-        SurName = "Surmanski";
-        TextureName = "Mortis_Surmanski_walk_duo";
-        SpriteName = "Mortis_Surmanski_walk_01.png";
-        PortraitName = "p_mortis.png";
-        Description = "Can bring dead monsters back to life. Every 60 revived monsters increases a random permanent stat.";
-        StartingWeapon = WeaponType.HOLYBOOK;
-        MaxHp = 60;
-        MoveSpeed += 0.15f;
-        Power -= 0.25f;
-        Cooldown -= 0.15f;
-    }
-
-    public override string JsonText()
-    {
-        var jArray = new JArray();
-        var obj = JObject.FromObject(this);
-        jArray.Add(obj);
-        jArray.Add(Level20);
-        jArray.Add(Level21);
-        jArray.Add(Level40);
-        jArray.Add(Level41);
-        return JsonConvert.SerializeObject(jArray);
     }
 }

@@ -36,8 +36,7 @@ public class LuigiMortisController : ModCharacterController
             _followerNum = 0;
             _followerTotal = 0;
 
-            instance._signalBus.Subscribe<GameplaySignals.EnemyKilledImmediateSignal>(
-                new Action(MakeEnemyFollower));
+            EnemyController.OnKilledImmediate += new Action<EnemyController>(MakeEnemyFollower);
         }
         else
         {
@@ -94,7 +93,7 @@ public class LuigiMortisController : ModCharacterController
         _characterController._playerStats.Speed._val -= 0.01f;
     }
 
-    private void MakeEnemyFollower()
+    private void MakeEnemyFollower(EnemyController enemyController)
     {
         if (_characterController?._gameManager.GetLatestKilledEnemyThatCanBeFollower() == null) return;
         if (_characterController._gameManager.GetNumAliveEnemyFollowers(_characterController) >= 8) return;
