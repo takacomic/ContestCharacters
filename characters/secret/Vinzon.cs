@@ -60,7 +60,7 @@ public class VinzonController : ModCharacterController
     private Dictionary<ArcanaType, ArcanaType> _evoArcanas = new()
     {
         //{ ArcanaType.T14_JEWELS, },
-        //{ ArcanaType.T19_FIRE, },
+        { ArcanaType.T19_FIRE, ArcanaType.D19_HEIR_OF_FATE},
         //{ ArcanaType.T02_TWILIGHT, },
         { ArcanaType.T05_CRASH, ArcanaType.D05_PALE_DIAMOND},
         { ArcanaType.T12_OUT_OF_TIME, ArcanaType.D12_CRYSTAL_CRIES},
