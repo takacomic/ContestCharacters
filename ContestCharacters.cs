@@ -30,7 +30,7 @@ internal static class ModInfo
 {
     public const string Name = "Contest Characters";
     public const string Author = "Takacomic";
-    public const string Version = "1.1.2";
+    public const string Version = "1.1.3";
     public const string Download = "https://github.com/takacomic/ContestCharacters/releases";
 }
 
